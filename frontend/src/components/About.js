@@ -24,7 +24,7 @@ const About = () => {
       id: 3,
       name: 'Mauli Mehulkumar Patel',
       roll: '211AI024',
-      photo: '/cartoon-avatar.png'
+      photo: '/mauliphoto.png'
     },
     {
       id: 4,
