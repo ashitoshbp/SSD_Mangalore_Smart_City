@@ -78,7 +78,6 @@ function Navbar({ currentTab, setCurrentTab }) {
     { key: 'dashboard', label: 'Dashboard' },
     { key: 'query', label: 'Natural Language Query' },
     { key: 'incidents', label: 'Incidents' },
-    { key: 'analytics', label: 'Analytics' },
     { key: 'about', label: 'About' }
   ];
   return (

@@ -495,7 +495,7 @@ const Map = () => {
   return (
     <div className="map-container">
       <div className="map-header">
-        <h1>Mangalore Smart City Map</h1>
+        <h1 className="map-title">Mangalore Smart City Map</h1>
         <p className="map-subtitle">Explore incidents, services, and infrastructure across Mangalore district</p>
       </div>
       

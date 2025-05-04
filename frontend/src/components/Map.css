@@ -38,14 +38,30 @@
   border-radius: 3px;
 }
 
-.map-header h1 {
+.map-title {
   font-size: 2.2rem;
   color: #1a2a3a;
   margin-bottom: 0.5rem;
   font-weight: 700;
   letter-spacing: 0.5px;
   text-shadow: 1px 1px 2px rgba(0,0,0,0.05);
+  position: relative;
+  text-align: center;
+  animation: fadeInDown 1s ease-out;
 }
+
+.map-title::after {
+  content: '';
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 4px;
+  background: linear-gradient(90deg, #3498db, #2c3e50);
+  border-radius: 2px;
+}
+
 
 .map-subtitle {
   color: #546e7a;

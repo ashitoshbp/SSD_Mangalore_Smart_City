@@ -11,16 +11,18 @@
   position: relative;
 }
 
-.query-header h2 {
+.query-title {
   font-size: 2.2rem;
   margin-bottom: 10px;
   color: #1a365d;
   font-weight: 700;
   position: relative;
   display: inline-block;
+  text-align: center;
+  animation: fadeInDown 1s ease-out;
 }
 
-.query-header h2::after {
+.query-title::after {
   content: '';
   position: absolute;
   bottom: -10px;
@@ -31,6 +33,18 @@
   background: linear-gradient(90deg, #3498db, #2c3e50);
   border-radius: 2px;
 }
+
+.query-subtitle {
+  font-size: 1.2rem;
+  color: #7f8c8d;
+  animation: fadeIn 1.5s ease-out;
+  text-align: center;
+  margin-bottom: 1.5rem;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
 
 .query-header p {
   font-size: 1.2rem;
@@ -150,15 +164,18 @@
   background: linear-gradient(135deg, #3498db, #2980b9);
   color: white;
   border: none;
-  padding: 12px 25px;
+  padding: 14px 0;
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 8px;
   box-shadow: 0 4px 6px rgba(50, 50, 93, 0.11), 0 1px 3px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  margin-top: 18px;
 }
 
 .submit-button:hover {
@@ -832,6 +849,12 @@
 
 .suggestions-container {
   margin-top: 15px;
+  margin-bottom: 18px;
+  background: #f8fafc;
+  border-radius: 8px;
+  padding: 10px 14px 8px 14px;
+  border: 1px solid #e2e8f0;
+  box-shadow: 0 2px 8px rgba(52, 152, 219, 0.05);
 }
 
 .suggestions-title {
@@ -844,20 +867,24 @@
   display: flex;
   flex-wrap: wrap;
   gap: 8px;
+  margin-bottom: 0;
 }
 
 .suggestion-chip {
-  background-color: #edf2f7;
-  border: 1px solid #e2e8f0;
+  background: linear-gradient(90deg, #e0e7ef 60%, #f8fafc 100%);
+  border: 1px solid #d1e3fa;
   border-radius: 20px;
-  padding: 5px 12px;
-  font-size: 0.85rem;
-  color: #4a5568;
+  padding: 7px 16px;
+  font-size: 0.95rem;
+  color: #2563eb;
   cursor: pointer;
   transition: all 0.2s;
+  font-weight: 500;
+  box-shadow: 0 1px 4px rgba(52, 152, 219, 0.06);
 }
 
 .suggestion-chip:hover {
-  background-color: #e2e8f0;
-  color: #2d3748;
+  background: #e2e8f0;
+  color: #1a365d;
+  border-color: #3498db;
 }

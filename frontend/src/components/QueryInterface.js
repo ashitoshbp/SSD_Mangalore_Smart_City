@@ -219,8 +219,8 @@ const QueryInterface = () => {
   return (
     <div className="query-interface">
       <div className="query-header">
-        <h2>Natural Language Query Interface</h2>
-        <p>Ask questions about Mangalore Smart City incidents in plain English</p>
+        <h1 className="query-title">Natural Language Query Interface</h1>
+        <p className="query-subtitle">Ask questions about Mangalore Smart City incidents in plain English</p>
       </div>
       
       <div className="query-container">
@@ -288,38 +288,39 @@ const QueryInterface = () => {
                   ))}
                 </select>
               </div>
-              
-              <button
-                type="submit"
-                className="submit-button"
-                disabled={isLoading || !query.trim()}
-              >
-                {isLoading ? (
-                  <>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M12 4V2A10 10 0 0 0 2 12h2a8 8 0 0 1 8-8Z">
-                        <animateTransform 
-                          attributeName="transform" 
-                          type="rotate" 
-                          from="0 12 12" 
-                          to="360 12 12" 
-                          dur="1s" 
-                          repeatCount="indefinite"
-                        />
-                      </path>
-                    </svg>
-                    Processing...
-                  </>
-                ) : (
-                  <>
-                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-                      <path d="M10 20H14V4H10V20ZM4 20H8V12H4V20ZM16 20H20V10H16V20Z"/>
-                    </svg>
-                    Ask Question
-                  </>
-                )}
-              </button>
+              <div style={{ flex: 1 }} />
             </div>
+            <button
+              type="submit"
+              className="submit-button"
+              disabled={isLoading || !query.trim()}
+              style={{ width: '100%', marginTop: 16 }}
+            >
+              {isLoading ? (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M12 4V2A10 10 0 0 0 2 12h2a8 8 0 0 1 8-8Z">
+                      <animateTransform 
+                        attributeName="transform" 
+                        type="rotate" 
+                        from="0 12 12" 
+                        to="360 12 12" 
+                        dur="1s" 
+                        repeatCount="indefinite"
+                      />
+                    </path>
+                  </svg>
+                  Processing...
+                </>
+              ) : (
+                <>
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+                    <path d="M10 20H14V4H10V20ZM4 20H8V12H4V20ZM16 20H20V10H16V20Z"/>
+                  </svg>
+                  Ask Question
+                </>
+              )}
+            </button>
             
             <div className="query-options">
               <div className="option-item">
