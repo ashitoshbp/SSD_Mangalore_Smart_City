@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import './App.css';
-import Home from './components/Home';
+import Map from './components/Map';
 import Dashboard from './components/Dashboard';
 import Incidents from './components/Incidents';
 import Analytics from './components/Analytics';
@@ -74,11 +74,11 @@ function SplashScreen({ onFinish }) {
 
 function Navbar({ currentTab, setCurrentTab }) {
   const tabs = [
-    { key: 'home', label: 'Home' },
+    { key: 'map', label: 'Map' },
     { key: 'dashboard', label: 'Dashboard' },
+    { key: 'query', label: 'Natural Language Query' },
     { key: 'incidents', label: 'Incidents' },
     { key: 'analytics', label: 'Analytics' },
-    { key: 'query', label: 'Natural Language Query' },
     { key: 'about', label: 'About' }
   ];
   return (
@@ -101,7 +101,7 @@ function Navbar({ currentTab, setCurrentTab }) {
 
 function App() {
   const [showSplash, setShowSplash] = useState(true);
-  const [currentTab, setCurrentTab] = useState('home');
+  const [currentTab, setCurrentTab] = useState('map');
 
   useEffect(() => {
     if (!showSplash) {
@@ -122,7 +122,7 @@ function App() {
     <div className="App">
       <Navbar currentTab={currentTab} setCurrentTab={setCurrentTab} />
       <main className="main-content">
-        {currentTab === 'home' && <Home />}
+        {currentTab === 'map' && <Map />}
         {currentTab === 'dashboard' && <Dashboard />}
         {currentTab === 'incidents' && <Incidents />}
         {currentTab === 'analytics' && <Analytics />}
