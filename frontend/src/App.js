@@ -2,8 +2,7 @@ import React, { useEffect, useState } from 'react';
 import './App.css';
 import Map from './components/Map';
 import Dashboard from './components/Dashboard';
-import Incidents from './components/Incidents';
-import Analytics from './components/Analytics';
+
 import About from './components/About';
 import ImageAnalysis from './components/ImageAnalysis';
 import QueryInterface from './components/QueryInterface';
@@ -78,7 +77,6 @@ function Navbar({ currentTab, setCurrentTab }) {
     { key: 'map', label: 'Map' },
     { key: 'dashboard', label: 'Dashboard' },
     { key: 'query', label: 'Natural Language Query' },
-    { key: 'incidents', label: 'Incidents' },
     { key: 'image-analysis', label: 'Image Analysis' },
     { key: 'about', label: 'About' }
   ];
