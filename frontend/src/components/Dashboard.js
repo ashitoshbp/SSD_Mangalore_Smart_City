@@ -102,25 +102,54 @@ const Dashboard = () => {
   const getTemporalChartData = () => {
     if (!temporalData) return null;
     
+    // Add debug logging to see what data we're receiving
+    console.log('Temporal data received:', temporalData);
+    
     let data = [];
     let labels = [];
     
+    // Check for both old and new API response formats
     switch(timeRange) {
       case 'day':
-        data = temporalData.incidents_per_day.map(item => item.count);
-        labels = temporalData.incidents_per_day.map(item => item.date);
+        // Handle both old and new API response formats
+        if (temporalData.daily) {
+          data = temporalData.daily.map(item => item.count);
+          labels = temporalData.daily.map(item => item.date);
+        } else if (temporalData.incidents_per_day) {
+          data = temporalData.incidents_per_day.map(item => item.count);
+          labels = temporalData.incidents_per_day.map(item => item.date);
+        }
         break;
       case 'week':
-        data = temporalData.incidents_per_week.map(item => item.count);
-        labels = temporalData.incidents_per_week.map(item => item.year_week);
+        // Handle both old and new API response formats
+        if (temporalData.weekly) {
+          data = temporalData.weekly.map(item => item.count);
+          labels = temporalData.weekly.map(item => item.year_week);
+        } else if (temporalData.incidents_per_week) {
+          data = temporalData.incidents_per_week.map(item => item.count);
+          labels = temporalData.incidents_per_week.map(item => item.year_week);
+        }
         break;
       case 'month':
-        data = temporalData.incidents_per_month.map(item => item.count);
-        labels = temporalData.incidents_per_month.map(item => item.year_month);
+        // Handle both old and new API response formats
+        if (temporalData.monthly) {
+          data = temporalData.monthly.map(item => item.count);
+          labels = temporalData.monthly.map(item => item.year_month);
+        } else if (temporalData.incidents_per_month) {
+          data = temporalData.incidents_per_month.map(item => item.count);
+          labels = temporalData.incidents_per_month.map(item => item.year_month);
+        }
         break;
       default:
-        data = temporalData.incidents_per_day.map(item => item.count);
-        labels = temporalData.incidents_per_day.map(item => item.date);
+        // Handle both old and new API response formats for the default case
+        if (temporalData.daily) {
+          data = temporalData.daily.map(item => item.count);
+          labels = temporalData.daily.map(item => item.date);
+        } else if (temporalData.incidents_per_day) {
+          data = temporalData.incidents_per_day.map(item => item.count);
+          labels = temporalData.incidents_per_day.map(item => item.date);
+        }
+        break;
     }
     
     return {

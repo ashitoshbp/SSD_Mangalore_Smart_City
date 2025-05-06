@@ -5,6 +5,7 @@ import Dashboard from './components/Dashboard';
 import Incidents from './components/Incidents';
 import Analytics from './components/Analytics';
 import About from './components/About';
+import ImageAnalysis from './components/ImageAnalysis';
 import QueryInterface from './components/QueryInterface';
 
 function SplashScreen({ onFinish }) {
@@ -78,6 +79,7 @@ function Navbar({ currentTab, setCurrentTab }) {
     { key: 'dashboard', label: 'Dashboard' },
     { key: 'query', label: 'Natural Language Query' },
     { key: 'incidents', label: 'Incidents' },
+    { key: 'image-analysis', label: 'Image Analysis' },
     { key: 'about', label: 'About' }
   ];
   return (
@@ -123,9 +125,8 @@ function App() {
       <main className="main-content">
         {currentTab === 'map' && <Map />}
         {currentTab === 'dashboard' && <Dashboard />}
-        {currentTab === 'incidents' && <Incidents />}
-        {currentTab === 'analytics' && <Analytics />}
         {currentTab === 'query' && <QueryInterface />}
+        {currentTab === 'image-analysis' && <ImageAnalysis />}
         {currentTab === 'about' && <About />}
       </main>
     </div>

@@ -9,11 +9,24 @@ from datetime import datetime, timedelta
 import random
 import math
 
+# Image analysis imports
+from src.image_analysis.services import analyze_incident_images as analyze_incident_images_service
+from werkzeug.utils import secure_filename
+from PIL import Image
+import io
+
 app = Flask(__name__)
 
-# Configure CORS to allow all origins
-CORS(app, resources={r"/*": {"origins": "*"}})
+# Configure CORS to allow all origins with explicit configuration
+CORS(app, resources={
+    r"/*": {
+        "origins": "*",
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization", "X-Requested-With"]
+    }
+})
 
+# Add explicit CORS headers to every response
 @app.after_request
 def after_request(response):
     response.headers.add('Access-Control-Allow-Origin', '*')
@@ -138,36 +151,79 @@ def get_dashboard_kpi():
 
 @app.route('/api/dashboard/temporal', methods=['GET'])
 def get_temporal_trends():
-    # Incidents per day
-    df['date'] = df['Incident Reported at'].dt.date
-    incidents_per_day = df.groupby('date').size().reset_index(name='count')
-    incidents_per_day['date'] = incidents_per_day['date'].astype(str)
-    # Convert count column to int
-    incidents_per_day['count'] = incidents_per_day['count'].astype(int)
-    
-    # Incidents per week
-    df['week'] = df['Incident Reported at'].dt.isocalendar().week
-    df['year'] = df['Incident Reported at'].dt.isocalendar().year
-    df['year_week'] = df['year'].astype(str) + '-' + df['week'].astype(str)
-    incidents_per_week = df.groupby('year_week').size().reset_index(name='count')
-    # Convert count column to int
-    incidents_per_week['count'] = incidents_per_week['count'].astype(int)
-    
-    # Incidents per month
-    df['month'] = df['Incident Reported at'].dt.month
-    df['year_month'] = df['year'].astype(str) + '-' + df['month'].astype(str)
-    incidents_per_month = df.groupby('year_month').size().reset_index(name='count')
-    # Convert count column to int
-    incidents_per_month['count'] = incidents_per_month['count'].astype(int)
-    
-    # Monsoon vs non-monsoon analysis (assuming June-September is monsoon season)
-    df['is_monsoon'] = df['Incident Reported at'].dt.month.isin([6, 7, 8, 9])
-    monsoon_analysis = df.groupby('is_monsoon').size().reset_index(name='count')
-    monsoon_analysis['season'] = monsoon_analysis['is_monsoon'].map({True: 'Monsoon', False: 'Non-Monsoon'})
-    # Convert count column to int
-    monsoon_analysis['count'] = monsoon_analysis['count'].astype(int)
-    
-    # Hour of day analysis
+    try:
+        print("Processing temporal trends request")
+        # Create a copy of the dataframe to avoid modifying the original
+        temp_df = df.copy()
+        
+        # Check if the required columns exist
+        if 'Incident Reported at' not in temp_df.columns:
+            print("Error: 'Incident Reported at' column not found in dataframe")
+            return jsonify({'error': 'Required column not found in dataset'}), 500
+            
+        # Ensure the column is datetime type
+        if not pd.api.types.is_datetime64_any_dtype(temp_df['Incident Reported at']):
+            print("Converting 'Incident Reported at' to datetime")
+            temp_df['Incident Reported at'] = pd.to_datetime(temp_df['Incident Reported at'], errors='coerce')
+        
+        # Drop rows with NaT values in the datetime column
+        temp_df = temp_df.dropna(subset=['Incident Reported at'])
+        
+        print(f"Processing {len(temp_df)} valid incident records")
+        
+        # Incidents per day
+        print("Calculating incidents per day")
+        temp_df['date'] = temp_df['Incident Reported at'].dt.date
+        incidents_per_day = temp_df.groupby('date').size().reset_index(name='count')
+        incidents_per_day['date'] = incidents_per_day['date'].astype(str)
+        # Convert count column to int
+        incidents_per_day['count'] = incidents_per_day['count'].astype(int)
+        
+        # Incidents per week
+        print("Calculating incidents per week")
+        # Use a safer approach for week calculation
+        temp_df['week'] = temp_df['Incident Reported at'].dt.strftime('%U')  # Week number (0-53)
+        temp_df['year'] = temp_df['Incident Reported at'].dt.year
+        temp_df['year_week'] = temp_df['year'].astype(str) + '-' + temp_df['week'].astype(str)
+        incidents_per_week = temp_df.groupby('year_week').size().reset_index(name='count')
+        # Convert count column to int
+        incidents_per_week['count'] = incidents_per_week['count'].astype(int)
+        
+        # Incidents per month
+        print("Calculating incidents per month")
+        temp_df['month'] = temp_df['Incident Reported at'].dt.month
+        temp_df['year_month'] = temp_df['year'].astype(str) + '-' + temp_df['month'].astype(str)
+        incidents_per_month = temp_df.groupby('year_month').size().reset_index(name='count')
+        # Convert count column to int
+        incidents_per_month['count'] = incidents_per_month['count'].astype(int)
+        
+        # Incidents by hour of day
+        print("Calculating incidents by hour")
+        temp_df['hour'] = temp_df['Incident Reported at'].dt.hour
+        incidents_by_hour = temp_df.groupby('hour').size().reset_index(name='count')
+        # Convert count column to int
+        incidents_by_hour['count'] = incidents_by_hour['count'].astype(int)
+        
+        # Incidents by day of week
+        print("Calculating incidents by day of week")
+        temp_df['day_of_week'] = temp_df['Incident Reported at'].dt.day_name()
+        incidents_by_day = temp_df.groupby('day_of_week').size().reset_index(name='count')
+        # Convert count column to int
+        incidents_by_day['count'] = incidents_by_day['count'].astype(int)
+        
+        print("Successfully processed temporal trends data")
+        return jsonify({
+            'daily': incidents_per_day.to_dict('records'),
+            'weekly': incidents_per_week.to_dict('records'),
+            'monthly': incidents_per_month.to_dict('records'),
+            'hourly': incidents_by_hour.to_dict('records'),
+            'by_day_of_week': incidents_by_day.to_dict('records')
+        })
+    except Exception as e:
+        print(f"Error in get_temporal_trends: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({'error': str(e)}), 500
     df['hour'] = df['Incident Reported at'].dt.hour
     hour_analysis = df.groupby('hour').size().reset_index(name='count')
     # Convert hour and count columns to int
@@ -601,6 +657,78 @@ def get_taluk_stats(taluk_name):
     except Exception as e:
         print(f"Error in get_taluk_stats: {str(e)}")
         return jsonify({'error': str(e)}), 500
+
+# --- Image Analysis Endpoint ---
+import os
+import asyncio
+from flask import send_file
+from src.image_analysis.services import analyze_incident_images as analyze_incident_images_service
+
+# Set up environment variables for LLM API keys
+# For development, you can set them directly here
+# For production, set these in your server environment
+
+# Directly set the Hugging Face API key
+os.environ["HUGGINGFACE_API_KEY"] = "hf_pRNTAqSxCcSfQJhNhHOEtMMjtHiBUXzThPv"  # Hugging Face API key
+print(f"Set Hugging Face API key: {os.environ['HUGGINGFACE_API_KEY'][:5]}...{os.environ['HUGGINGFACE_API_KEY'][-5:]}")
+
+# Force reload the LLM service module to ensure it picks up the new API key
+import importlib
+import src.image_analysis.llm_service
+importlib.reload(src.image_analysis.llm_service)
+
+@app.route('/analyze-incident-images/', methods=['POST'])
+def analyze_incident_images():
+    try:
+        print("Received image analysis request")
+        
+        # Check if files are in the request
+        if 'before' not in request.files or 'after' not in request.files:
+            print("Missing required files")
+            return jsonify({'error': 'Both before and after images are required.'}), 400
+        
+        before_file = request.files['before']
+        after_file = request.files['after']
+        
+        # Log file info for debugging
+        print(f"Before file: {before_file.filename}, After file: {after_file.filename}")
+        
+        # Ensure files have content
+        if before_file.filename == '' or after_file.filename == '':
+            print("Empty filenames detected")
+            return jsonify({'error': 'Both before and after images must be selected.'}), 400
+        
+        # Check file types (optional)
+        allowed_extensions = {'png', 'jpg', 'jpeg', 'gif'}
+        before_ext = before_file.filename.rsplit('.', 1)[1].lower() if '.' in before_file.filename else ''
+        after_ext = after_file.filename.rsplit('.', 1)[1].lower() if '.' in after_file.filename else ''
+        
+        if before_ext not in allowed_extensions or after_ext not in allowed_extensions:
+            print(f"Invalid file types: {before_ext}, {after_ext}")
+            return jsonify({'error': 'Only image files (png, jpg, jpeg, gif) are allowed.'}), 400
+            
+        try:
+            # Pass the file objects directly to the service
+            print("Calling image analysis service...")
+            result = asyncio.run(analyze_incident_images_service(before_file, after_file))
+            print("Analysis completed successfully")
+            return jsonify(result)
+        except Exception as e:
+            print(f"Error in image analysis service: {str(e)}")
+            import traceback
+            traceback.print_exc()
+            return jsonify({
+                'error': f"Analysis failed: {str(e)}", 
+                'details': traceback.format_exc()
+            }), 500
+    except Exception as e:
+        print(f"Unexpected error in analyze_incident_images: {str(e)}")
+        import traceback
+        traceback.print_exc()
+        return jsonify({
+            'error': f"Unexpected error: {str(e)}", 
+            'details': traceback.format_exc()
+        }), 500
 
 if __name__ == '__main__':
     app.run(debug=True, port=5000)
