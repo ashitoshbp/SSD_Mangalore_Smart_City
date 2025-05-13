@@ -5,25 +5,28 @@ A full-stack smart city analytics platform for Mangalore, featuring:
 - **Professional, animated React frontend** with map, dashboard, analytics, and team info
 - **Robust Python backend** (FastAPI & Flask) with vector search, analytics, and API endpoints
 
----
 ## Screenshots of implementation
-<table>
-  <tr>
-    <td> </td>
-    <td><img src="images/img2.png" width="100"/></td>
-    <td><img src="images/img3.png" width="100"/></td>
-  </tr>
-  <tr>
-    <td><img src="images/img4.png" width="100"/></td>
-    <td><img src="images/img5.png" width="100"/></td>
-    <td><img src="images/img6.png" width="100"/></td>
-  </tr>
-  <tr>
-    <td><img src="images/img7.png" width="100"/></td>
-    <td><img src="images/img8.png" width="100"/></td>
-    <td><img src="images/img9.png" width="100"/></td>
-  </tr>
-</table>
+---![Screenshot 2025-05-13 151132](https://github.com/user-attachments/assets/f406fd53-8b0f-4f85-a1b2-552609f12225)
+
+## The map represenatation
+![Screenshot 2025-05-13 152107](https://github.com/user-attachments/assets/89ed90ca-5da8-4a3e-baad-e99967f02362)
+![Screenshot 2025-05-13 152216](https://github.com/user-attachments/assets/509a7169-7a63-44fa-ac19-6a10075e04e4)
+
+## Dashboard Integration with UI
+![Screenshot 2025-05-13 152256](https://github.com/user-attachments/assets/5e06122d-5d3f-49be-aaad-8eb6bf0a35de)
+![Screenshot 2025-05-13 152317](https://github.com/user-attachments/assets/85177934-9217-4f28-a7e8-2e6456c6d2cf)
+![Screenshot 2025-05-13 152326](https://github.com/user-attachments/assets/ad1c9cc2-1413-466f-a6f8-0f7ce42b0ba5)
+
+## Natural Language Query for question answering
+![Screenshot 2025-05-13 152758](https://github.com/user-attachments/assets/20b31ba3-0219-4872-a2d2-6179f6b5ed4f)
+![Screenshot 2025-05-13 152747](https://github.com/user-attachments/assets/3af926be-a9cc-4cca-9d04-e4232e7f8c2d)
+
+## Image Comparison
+![Screenshot 2025-05-13 152649](https://github.com/user-attachments/assets/47227296-9f92-4b6c-bcc9-39229282fda5)
+![Screenshot 2025-05-13 152708](https://github.com/user-attachments/assets/c5114b64-494a-47a0-bfd0-f72059785d46)
+
+## Team 
+![Screenshot 2025-05-13 152722](https://github.com/user-attachments/assets/544577e1-1c6a-4264-a830-76fea80f11bf)
 
 
 ## Table of Contents
