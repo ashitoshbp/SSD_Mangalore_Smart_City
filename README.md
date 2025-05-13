@@ -6,6 +6,25 @@ A full-stack smart city analytics platform for Mangalore, featuring:
 - **Robust Python backend** (FastAPI & Flask) with vector search, analytics, and API endpoints
 
 ---
+## Screenshots of implementation
+<table>
+  <tr>
+    <td> </td>
+    <td><img src="images/img2.png" width="100"/></td>
+    <td><img src="images/img3.png" width="100"/></td>
+  </tr>
+  <tr>
+    <td><img src="images/img4.png" width="100"/></td>
+    <td><img src="images/img5.png" width="100"/></td>
+    <td><img src="images/img6.png" width="100"/></td>
+  </tr>
+  <tr>
+    <td><img src="images/img7.png" width="100"/></td>
+    <td><img src="images/img8.png" width="100"/></td>
+    <td><img src="images/img9.png" width="100"/></td>
+  </tr>
+</table>
+
 
 ## Table of Contents
 - [Project Overview](#project-overview)
